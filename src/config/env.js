@@ -1,4 +1,5 @@
 require('dotenv').config();
+const logger = require("../utils/logger");
 
 function validateEnvs() {
     const requiredVars = [
@@ -9,7 +10,7 @@ function validateEnvs() {
     const missingVars = requiredVars.filter((val) => !process.env[val]);
 
     if (missingVars.length > 0) {
-        console.error(`Missing some required env variables: ${missingVars.join(" ")}`);
+        logger.error(`Missing some required env variables: ${missingVars.join(" ")}`);
         process.exit(1);
     }
 }

@@ -17,10 +17,10 @@ function validateEnvs() {
 
 validateEnvs();
 
-const env = {
+const env = Object.freeze({
     nodeEnv: process.env.NODE_ENV || 'development',
     port: process.env.PORT,
     mongoUri: process.env.MONGO_URI
-}
+})
 
 module.exports = env;

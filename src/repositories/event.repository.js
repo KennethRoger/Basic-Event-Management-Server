@@ -12,7 +12,7 @@ const findByUserId = (userId, { page, limit }) => {
 }
 
 const updateById = (eventId, updates) =>
-    Event.findByIdAndUpdate(eventId, updates, { returnDocument: 'after', runValidators: true }).lean();
+    Event.findByIdAndUpdate(eventId, updates, { returnDocument: 'after' }).lean();
 
 module.exports = {
     create,

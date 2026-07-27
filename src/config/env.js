@@ -4,7 +4,8 @@ const logger = require("../utils/logger");
 function validateEnvs() {
     const requiredVars = [
         "PORT",
-        "MONGO_URI"
+        "CORS_ORIGIN",
+        "MONGO_URI",
     ];
 
     const missingVars = requiredVars.filter((val) => !process.env[val]);
@@ -19,6 +20,7 @@ validateEnvs();
 
 const env = Object.freeze({
     nodeEnv: process.env.NODE_ENV || 'development',
+    corsOrigin: process.env.CORS_ORIGIN,
     port: process.env.PORT,
     mongoUri: process.env.MONGO_URI
 })

@@ -115,14 +115,19 @@ const updateEvent = async (eventId, updatedBy, updates) => {
         throw new ValidationError("eventId can't be empty or invalid!");
     }
 
-    const existingEvent = await eventRepo.findById(evenId);
+    const existingEvent = await eventRepo.findById(eventId);
     if (!existingEvent) {
         throw new NotFoundError(errorCodeMsg.EVENT_NOT_FOUND, `Event with id: ${eventId} does not exist`)
     }
 
     if (updates.profiles) {
-        if (!Array.isArray(profiles) || profiles.length === 0) {
+        if (!Array.isArray(updates.profiles) || updates.profiles.length === 0) {
             throw new ValidationError("Profile is an array and it can't be empty!");
+        }
+
+        const foundProfiles = await userRepo.findManyByIds(updates.profiles);
+        if (foundProfiles.length !== updates.profiles.length) {
+            throw new NotFoundError(errorCodeMsg.USER_NOT_FOUND, 'One or more profile userIds do not exist');
         }
     }
 
@@ -144,11 +149,38 @@ const updateEvent = async (eventId, updatedBy, updates) => {
     }
 
     return updatedEvent;
+}
 
+const getEventLogs = async (eventId, { limit = 10, cursor }) => {
+    if (!eventId || !mongoose.isValidObjectId(eventId)) {
+        throw new ValidationError("eventId can't be empty or invalid!");
+    }
+
+    const parsedLimit = Number(limit);
+    if (Number.isNaN(parsedLimit) || parsedLimit < 1 || parsedLimit > 100) {
+        throw new ValidationError('limit must be between 1 and 100');
+    }
+
+    const existingEvent = await eventRepo.findById(eventId);
+    if (!existingEvent) {
+        throw new NotFoundError(errorCodeMsg.EVENT_NOT_FOUND, 'eventId does not exist');
+    }
+
+    const results = await eventLogRepo.findByEventId(eventId, { limit: parsedLimit, cursor });
+
+    const hasMore = results.length > parsedLimit;
+    const logs = hasMore ? results.slice(0, parsedLimit) : results;
+    const nextCursor = hasMore ? logs[logs.length - 1].createdAt.toISOString() : null;
+
+    return {
+        logs,
+        pagination: { limit: parsedLimit, nextCursor, hasMore }
+    }
 }
 
 module.exports = {
     createEvent,
     getEventsByUserId,
-    updateEvent
+    updateEvent,
+    getEventLogs
 };

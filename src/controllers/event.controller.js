@@ -22,7 +22,31 @@ const getEventsByUserId = async (req, res, next) => {
     }
 }
 
+const updateEvent = async (req, res, next) => {
+    const { eventId } = req.params;
+    const { updatedBy, ...updates } = req.body;
+    try {
+        const updatedEvent = await eventService.updateEvent(eventId, updatedBy, updates);
+        res.status(HttpStatus.OK).json(success('Event updated successfully', updatedEvent));
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getEventLogs = async (req, res, next) => {
+  const { eventId } = req.params;
+  const { limit, cursor } = req.query;
+  try {
+    const { logs, pagination } = await eventService.getEventLogs(eventId, { limit, cursor });
+    res.status(HttpStatus.OK).json(success('Event logs retrieved successfully', { logs, pagination }));
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
     createEvent,
-    getEventsByUserId
+    getEventsByUserId,
+    updateEvent,
+    getEventLogs
 };

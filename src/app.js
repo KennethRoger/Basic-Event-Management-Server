@@ -9,6 +9,9 @@ app.use(globalRateLimiter);
 app.get("/", (req, res) => {
     res.send("Hello World!")
 });
+
+app.use(express.json());
+
 app.use("/api", routes);
 
 app.use(errorHandler);

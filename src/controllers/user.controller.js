@@ -11,10 +11,22 @@ const createUser = async (req, res, next) => {
     res.status(HttpStatus.CREATED).json(success('User created successfully', user));
     } catch (err) {
         next(err);
+    }   
+}
+
+const searchUsers = async (req, res, next) => {
+    const { str, limit } = req.query;
+
+    try {
+        const users = await userService.searchUsers(str, limit);
+
+        res.status(HttpStatus.OK).json(success('Users retrieved', users))
+    } catch (err) {
+        next(err)
     }
-    
 }
 
 module.exports = {
-    createUser
+    createUser,
+    searchUsers
 }

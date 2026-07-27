@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 
 const eventSchema = new mongoose.Schema(
     {
-        createdId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        creatorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         profiles: {
             type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
             required: true,
             validate: { validator: (arr) => arr.length > 0, message: 'Profile must be non empty array' }
         },
-        timezone: { type: string, required: true },
+        timezone: { type: String, required: true },
         startAt: { type: Date, required: true },
         endAt: {
             type: Date,
             required: true,
-            validate: { validator: (val) => val > this.startAt, message: 'endAt should be greated than startAt' }
+            validate: { validator: function (val) { return val > this.startAt; }, message: 'endAt should be greater than startAt' }
         }
     },
     { timestamps: true }

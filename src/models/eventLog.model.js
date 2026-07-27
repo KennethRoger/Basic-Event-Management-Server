@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const profilesChangeSchema = new mongoose.Schema(
     {
-        added: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }],
-        removed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }]
+        added: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        removed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
     },
     { _id: false }
 );
@@ -30,7 +30,8 @@ const eventChangeSchema = new mongoose.Schema(
         timezone: timezoneChangeSchema,
         startAt: dateChangeSchema,
         endAt: dateChangeSchema
-    }
+    },
+    { _id: false }
 );
 
 const eventLogSchema = new mongoose.Schema(

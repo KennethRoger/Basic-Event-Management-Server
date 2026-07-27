@@ -1,4 +1,4 @@
-const { ErrorCodeMsg, ERROR_CODES } = require("../constants/errorCodes");
+const { errorCodeMsg, ERROR_CODES } = require("../constants/errorCodes");
 const HttpStatus = require("../constants/httpStatus");
 const { AppError } = require("../utils/appErrors");
 const logger = require("../utils/logger");
@@ -15,8 +15,8 @@ const errorHandler = (err, req, res, next) => {
     }
 
     logger.warn(`Unhandled Error: ${req.method} ${req.originalUrl}\n${err.stack || err}`);
-    return res.status(ERROR_CODES[ErrorCodeMsg.SERVER_ERROR]).json(
-        failure(ErrorCodeMsg.SERVER_ERROR, `Unexpected server error has occurred. Please try again after a while`)
+    return res.status(ERROR_CODES[errorCodeMsg.SERVER_ERROR]).json(
+        failure(errorCodeMsg.SERVER_ERROR, `Unexpected server error has occurred. Please try again after a while`)
     );
 }
 

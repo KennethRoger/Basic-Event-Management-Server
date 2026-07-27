@@ -11,9 +11,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
-
 app.use("/api", routes);
-
 app.use(errorHandler);
 
 module.exports = app;

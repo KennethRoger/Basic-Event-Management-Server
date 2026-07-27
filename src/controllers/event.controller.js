@@ -22,7 +22,19 @@ const getEventsByUserId = async (req, res, next) => {
     }
 }
 
+const updateEvent = async (req, res, next) => {
+    const { evenId } = req.params;
+    const { updatedBy, ...updates } = req.body;
+    try {
+        const updatedEvent = await eventService.updateEvent(eventId, updatedBy, updates);
+        res.status(HttpStatus.OK).json(success('Event updated successfully', updatedEvent));
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createEvent,
-    getEventsByUserId
+    getEventsByUserId,
+    updateEvent
 };

@@ -5,7 +5,8 @@ const ERROR_CODES = Object.freeze({
     SERVER_ERROR: httpStatus.INTERNAL_SERVER_ERROR,
     VALIDATION_ERROR: httpStatus.BAD_REQUEST,
     RATE_LIMITED: httpStatus.TOO_MANY_REQUESTS,
-    USERNAME_TAKEN: httpStatus.CONFLICT
+    USERNAME_TAKEN: httpStatus.CONFLICT,
+    EVENT_NOT_FOUND: httpStatus.NOT_FOUND
 })
 
 // const errorCodeMsg = Object.keys(ERROR_CODES).reduce((acc, curr) => {
@@ -18,7 +19,8 @@ const errorCodeMsg = Object.freeze({
     SERVER_ERROR: "SERVER_ERROR",
     VALIDATION_ERROR: "VALIDATION_ERROR",
     RATE_LIMITED: "RATE_LIMITED",
-    USERNAME_TAKEN: "USERNAME_TAKEN"
+    USERNAME_TAKEN: "USERNAME_TAKEN",
+    EVENT_NOT_FOUND: "EVENT_NOT_FOUND"
 })
 
 const codesKeys = Object.keys(ERROR_CODES).sort();

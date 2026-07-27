@@ -12,6 +12,12 @@ class AppError extends Error {
     }
 }
 
+class NotFoundError extends AppError {
+    constructor(codeMsg, details) {
+        super(codeMsg, details);
+    }
+}
+
 class ValidationError extends AppError {
     constructor(details) {
         super(errorCodeMsg.VALIDATION_ERROR, details);
@@ -27,6 +33,7 @@ class ConflictError extends AppError {
 
 module.exports = { 
     AppError,
+    NotFoundError,
     ValidationError,
     ConflictError
 }

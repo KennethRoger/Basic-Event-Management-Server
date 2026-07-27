@@ -8,7 +8,7 @@ const findByUserId = (userId, { page, limit }) => {
     return Promise.all([
         Event.find({ profiles: userId }).sort({ startAt: -1 }).skip(skip).limit(limit).lean(),
         Event.countDocuments({ profiles: userId })
-    ])
+    ]);
 }
 
 const updateById = (eventId, updates) =>

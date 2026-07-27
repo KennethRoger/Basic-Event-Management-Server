@@ -12,6 +12,17 @@ const createEvent = async (req, res, next) => {
     }
 }
 
+const getEventsByUserId = async (req, res, next) => {
+    const { userId, page, limit } = req.query;
+    try {
+        const paginatedEvents = await eventService.getEventsByUserId(userId, { page, limit });
+        res.status(HttpStatus.OK).json(success(`Retrieved events assigned to userId: ${userId}`, paginatedEvents));
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
-    createEvent
+    createEvent,
+    getEventsByUserId
 };

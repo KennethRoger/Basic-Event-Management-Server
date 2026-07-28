@@ -29,6 +29,7 @@ const connectDB = async () => {
 process.on('SIGINT', async () => {
     await mongoose.connection.close();
     logger.info(`Mongoose connection closed (SIGINT)`);
+    process.exit(0);
 });
 
 module.exports = connectDB;

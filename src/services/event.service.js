@@ -75,12 +75,16 @@ const getEventsByUserId = async (userId, { page = 1, limit = 10 } = {}) => {
 }
 
 const diffProfiles = (previousProfiles, nextProfiles) => {
-    const prevSet = new Set(previousProfiles.map(String));
-    const nextSet = new Set(nextProfiles.map(String));
-    return {
-        added: [...nextSet].filter((id) => !prevSet.has(id)),
-        removed: [...prevSet].filter((id) => !nextSet.has(id)),
-    };
+  const prevIds = previousProfiles.map((p) => (typeof p === 'object' ? String(p._id) : String(p)));
+  const nextIds = nextProfiles.map((p) => (typeof p === 'object' ? String(p._id) : String(p)));
+
+  const prevSet = new Set(prevIds);
+  const nextSet = new Set(nextIds);
+
+  return {
+    added: [...nextSet].filter((id) => !prevSet.has(id)),
+    removed: [...prevSet].filter((id) => !nextSet.has(id)),
+  };
 };
 
 const buildChangeLog = (existingEvent, updates) => {
